@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: deaddrop-api
+    runtime: go
+    plan: free
+
+    buildCommand: cd server && go build -o deaddrop-server ./cmd/server
+    startCommand: cd server && ./deaddrop-server
+
+    healthCheckPath: /health
