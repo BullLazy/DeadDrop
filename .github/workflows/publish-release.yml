@@ -1,0 +1,100 @@
+name: DeadDrop Beta Release
+
+on:
+  push:
+    tags:
+      - 'V*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'GitHub Release tag'
+        required: true
+        default: 'V0.1.0-beta'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find successful Android build
+        id: build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          RUN_ID=$(gh run list \
+            --repo "$GH_REPO" \
+            --workflow android.yml \
+            --branch main \
+            --status success \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+
+          if [ -z "$RUN_ID" ]; then
+            echo "No successful Android build found."
+            exit 1
+          fi
+
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Using Android build run: $RUN_ID"
+
+      - name: Download Android build artifact
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.build.outputs.run_id }}
+          name: DeadDrop-APK
+          path: release
+
+      - name: Verify APK and checksum
+        working-directory: release
+        run: |
+          test -f DeadDrop-debug.apk
+          test -f SHA256SUMS.txt
+          sha256sum --check SHA256SUMS.txt
+
+      - name: Determine release tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ steps.tag.outputs.tag }}"
+
+          gh release create "$TAG" \
+            --repo "${{ github.repository }}" \
+            --target main \
+            --title "DeadDrop ${TAG}" \
+            --notes "DeadDrop beta release.
+
+          APK: DeadDrop-debug.apk
+          SHA-256: SHA256SUMS.txt
+
+          This is a beta/debug-signed build." \
+            --prerelease \
+            release/DeadDrop-debug.apk \
+            release/SHA256SUMS.txt
+
+      - name: Release summary
+        run: |
+          echo "## DeadDrop Beta Release" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Tag: ${{ steps.tag.outputs.tag }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "APK: DeadDrop-debug.apk" >> "$GITHUB_STEP_SUMMARY"
+          echo "SHA-256: SHA256SUMS.txt" >> "$GITHUB_STEP_SUMMARY"
