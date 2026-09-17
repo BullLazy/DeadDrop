@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DeadDrop</string>
+    <string name="app_description">İnternet üzerinden, uçtan uca şifreli ve geçici dosya aktarımı.</string>
+    <string name="backend_api_base_url">https://YOUR-RENDER-SERVICE.onrender.com</string>
+    <string name="backend_title">Render sunucusu</string>
+    <string name="backend_url_hint">https://ornek.onrender.com</string>
+    <string name="save_backend_url">Sunucu adresini kaydet</string>
+    <string name="backend_url_saved">Render sunucu adresi kaydedildi.</string>
+    <string name="backend_url_invalid">Geçerli bir Render HTTPS adresi girin.</string>
+    <string name="send_title">Gönder</string>
+    <string name="select_file">Dosya Seç</string>
+    <string name="send_file">Şifrele ve İnternete Yükle</string>
+    <string name="open_sharing">Paylaşımı Aç</string>
+    <string name="resume_transfer">Devam Et</string>
+    <string name="no_file_selected">Henüz dosya seçilmedi</string>
+    <string name="file_size_not_available">Boyut: —</string>
+    <string name="transfer_status_initial">Durum: Dosya bekleniyor</string>
+    <string name="transfer_percent_initial">0%</string>
+    <string name="file_size_value">Boyut: %1$s</string>
+    <string name="file_size_bytes">%1$d bayt</string>
+    <string name="transfer_status_value">Durum: %1$s</string>
+    <string name="unknown_file_name">Adsız dosya</string>
+    <string name="select_file_first">Önce bir dosya seçin.</string>
+    <string name="transfer_interrupted">Aktarım kesildi; kaldığı yerden devam edilebilir.</string>
+    <string name="transfer_failed">Aktarım başarısız: %1$s</string>
+    <string name="generic_error">Bilinmeyen hata</string>
+    <string name="share_ready">Paylaşım hazır:
+%1$s</string>
+    <string name="share_url_initial">Şifreli bağlantı hazır olduğunda burada görünür.</string>
+    <string name="share_drop">Paylaş</string>
+    <string name="copy_link">Bağlantıyı Kopyala</string>
+    <string name="stop_sharing">Paylaşımı Durdur</string>
+    <string name="sharing_restarted">Paylaşım yeniden açıldı.</string>
+    <string name="link_copied">Bağlantı panoya kopyalandı.</string>
+    <string name="sharing_stopped">Paylaşım durduruldu ve geçici veriler temizlendi.</string>
+    <string name="receive_title">Al</string>
+    <string name="receive_url_hint">DeadDrop internet bağlantısını yapıştırın</string>
+    <string name="receive_button">Bağlantıdan İndir</string>
+    <string name="no_drop_selected">Henüz indirilecek drop yok</string>
+    <string name="receive_status_initial">Durum: Bağlantı bekleniyor</string>
+    <string name="checking_drop">Drop kontrol ediliyor…</string>
+    <string name="downloading_drop">Şifreli paket indiriliyor…</string>
+    <string name="uploading_drop">Şifreli paket Render’a yükleniyor…</string>
+    <string name="download_complete">İndirme tamamlandı, dosya doğrulandı ve drop temizlendi.</string>
+    <string name="download_resume_available">Yarım kalan indirme devam ettirilebilir.</string>
+    <string name="invalid_drop_url">Geçerli bir DeadDrop internet bağlantısı girin.</string>
+    <string name="percent_100">100%</string>
+    <string name="share_url_value">Bağlantı: %1$s</string>
+</resources>

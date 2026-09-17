@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: deaddrop-api
+    runtime: go
+    rootDir: backend
+    plan: starter
+    numInstances: 1
+    buildCommand: go build -o bin/deaddrop-api .
+    startCommand: ./bin/deaddrop-api
+    healthCheckPath: /healthz
+    disk:
+      name: encrypted-drops
+      mountPath: /var/data
+      sizeGB: 10
+    envVars:
+      - key: DATA_DIR
+        value: /var/data/drops
+      - key: DROP_TTL
+        value: 24h
+      - key: MAX_DROP_BYTES
+        value: "8589934592"
+      - key: MAX_STORAGE_BYTES
+        value: "9663676416"
